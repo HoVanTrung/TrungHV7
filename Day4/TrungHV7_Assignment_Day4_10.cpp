@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 int strlenght(char *str){
@@ -32,22 +33,17 @@ String::String()
 String::~String()
 {
 	iLenght = 0;
-	delete[] str;
+	if(strlenght(str)==NULL)
+		delete[] str;
 }
 String operator + (const String& strOne, const String& strTwo) {
 
-	int index, jndex;
 	String sStringConcat = strOne;
-
-	for (jndex = 0; strOne.str[jndex] != '\0'; ++jndex) {
-		for (index = 0; strOne.str[jndex] != '\0'; ++index, ++jndex) {
-			*(sStringConcat.str + jndex) = *(strTwo.str + index);
-			cout << "\nStringConcat: " << sStringConcat.str;
-
-		}
-		sStringConcat.str[jndex] = '\0';
+	int index, iIndexConcat = strlenght(sStringConcat.str);
+	for (index = 0; strTwo.str[index] != '\0'; ++index) {
+		sStringConcat.str[iIndexConcat] =  strTwo.str[index];
+		iIndexConcat++;
 	}
-
 	return sStringConcat;
 }
 
@@ -58,17 +54,16 @@ ostream& operator << (ostream& os, String& str) {
 }
 
 istream& operator >> (istream& is, String& str) {
-	//cout << "\nEnter Length string is: ";
-	//is >> str.iLenght;
+	cout << "\nEnter Length string is: ";
+	is >> str.iLenght;
 //	fflush(stdin);
-	str.str = new char[100];
-//	str.str = new char[str.iLenght + 1];
-//	do {
+	str.str = new char[str.iLenght + 1];
+	do {
 		cout << "\nEnter character string: ";
 		is >> str.str;
-//	} while (strlenght(str.str) >= str.iLenght);
+	} while (strlenght(str.str) >= str.iLenght);
 
-//	/*is.ignore();
+////	/*is.ignore();
 //	is.getline(str.str, str.iLenght + 1);*/
 
 	return is;
@@ -81,7 +76,7 @@ int main()
 	cout << "\n=== String Two ===";
 	cin >> sStringTwo;
 	sStringConcat = sSringOne + sStringTwo;
-	cout << "\n=== String Concat ===" << sStringConcat;
+	cout << "\n=== String Concat ===" << "\nCharacter string after: " << sStringConcat;
 	return 0;
 
 }
